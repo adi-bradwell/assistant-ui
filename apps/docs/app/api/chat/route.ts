@@ -1,7 +1,10 @@
 import { getDistinctId, posthogServer } from "@/lib/posthog-server";
 import { injectQuoteContext } from "@/lib/quote";
 import { checkRateLimit } from "@/lib/rate-limit";
-import { openai } from "@ai-sdk/openai";
+import {
+  createGatewayModelProvider,
+  extractModelFromRequestBody,
+} from "@/lib/vercel-ai-gateway";
 import { frontendTools } from "@assistant-ui/react-ai-sdk";
 import { withTracing } from "@posthog/ai";
 import {
@@ -17,9 +20,11 @@ export async function POST(req: Request) {
   const rateLimitResponse = await checkRateLimit(req);
   if (rateLimitResponse) return rateLimitResponse;
 
-  const { messages, tools } = await req.json();
+  const body = await req.json();
+  const { messages, tools, config } = body;
 
-  const baseModel = openai("gpt-5-nano");
+  const gatewayModel = createGatewayModelProvider();
+  const baseModel = gatewayModel(extractModelFromRequestBody({ config }));
 
   const tracedModel = posthogServer
     ? withTracing(baseModel, posthogServer, {
