@@ -1,18 +1,15 @@
-import { createOpenAI } from "@ai-sdk/openai";
+import { gateway } from "ai";
 import { DEFAULT_MODEL_ID, isValidModelId } from "@/constants/model";
 
-const GATEWAY_BASE_URL = "https://ai-gateway.vercel.sh/v1";
-
-const gateway = createOpenAI({
-  apiKey: process.env["AI_GATEWAY_API_KEY"] ?? "",
-  baseURL: process.env["AI_GATEWAY_BASE_URL"] ?? GATEWAY_BASE_URL,
-});
-
 export function getModel(modelId?: string) {
-  const id =
-    typeof modelId === "string" && isValidModelId(modelId.trim())
-      ? modelId.trim()
-      : DEFAULT_MODEL_ID;
+  const raw = typeof modelId === "string" ? modelId.trim() : undefined;
+  const id = raw && isValidModelId(raw) ? raw : DEFAULT_MODEL_ID;
+
+  if (raw && raw !== id) {
+    console.warn(
+      `[ai/provider] invalid model "${raw}", falling back to "${id}"`,
+    );
+  }
 
   return gateway(id);
 }
