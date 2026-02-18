@@ -1,9 +1,9 @@
-export const DEFAULT_MODEL_ID = "gpt-5-nano";
+export const DEFAULT_MODEL_ID = "openai/gpt-5-nano";
 
 export const MODELS = [
   {
     name: "GPT-5 Nano",
-    value: "gpt-5-nano",
+    value: "openai/gpt-5-nano",
     icon: "/icons/openai.svg",
     disabled: false,
     contextWindow: 400_000,
