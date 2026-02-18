@@ -7,7 +7,7 @@ import {
   ModelSelectorTrigger,
   ModelSelectorContent,
 } from "@/components/assistant-ui/model-selector";
-import { DEFAULT_DOCS_MODEL, MODELS } from "@/constants/model";
+import { DEFAULT_MODEL_ID, MODELS } from "@/constants/model";
 import { SampleFrame } from "@/components/docs/samples/sample-frame";
 
 const models = MODELS.map((model) => ({
@@ -25,7 +25,7 @@ function VariantRow({
   label: string;
   variant?: "outline" | "ghost" | "muted";
 }) {
-  const [value, setValue] = useState(DEFAULT_DOCS_MODEL);
+  const [value, setValue] = useState(DEFAULT_MODEL_ID);
 
   return (
     <div className="flex flex-col gap-2">

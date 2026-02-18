@@ -1,10 +1,7 @@
 import { getDistinctId, posthogServer } from "@/lib/posthog-server";
 import { injectQuoteContext } from "@/lib/quote";
 import { checkRateLimit } from "@/lib/rate-limit";
-import {
-  createGatewayModelProvider,
-  extractModelFromRequestBody,
-} from "@/lib/vercel-ai-gateway";
+import { getModel } from "@/lib/ai/provider";
 import { frontendTools } from "@assistant-ui/react-ai-sdk";
 import { withTracing } from "@posthog/ai";
 import {
@@ -23,8 +20,7 @@ export async function POST(req: Request) {
   const body = await req.json();
   const { messages, tools, config } = body;
 
-  const gatewayModel = createGatewayModelProvider();
-  const baseModel = gatewayModel(extractModelFromRequestBody({ config }));
+  const baseModel = getModel(config?.modelName);
 
   const tracedModel = posthogServer
     ? withTracing(baseModel, posthogServer, {

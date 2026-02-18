@@ -1,4 +1,4 @@
-export const DEFAULT_DOCS_MODEL = "google/gemini-3-flash";
+export const DEFAULT_MODEL_ID = "google/gemini-3-flash";
 
 export const MODELS = [
   {
@@ -46,3 +46,10 @@ export const MODELS = [
 ] as const;
 
 export type Model = (typeof MODELS)[number];
+
+const ACTIVE_MODELS = MODELS.filter((m) => !m.disabled);
+const VALID_MODEL_IDS = new Set<string>(ACTIVE_MODELS.map((m) => m.value));
+
+export function isValidModelId(id: string): boolean {
+  return VALID_MODEL_IDS.has(id);
+}
