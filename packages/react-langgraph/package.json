@@ -1,0 +1,76 @@
+{
+  "name": "@assistant-ui/react-langgraph",
+  "version": "0.12.5",
+  "description": "LangGraph adapter for assistant-ui",
+  "keywords": [
+    "langgraph",
+    "langchain",
+    "assistant-ui",
+    "react",
+    "ai",
+    "chat",
+    "agents"
+  ],
+  "author": "AgentbaseAI Inc.",
+  "license": "MIT",
+  "type": "module",
+  "exports": {
+    ".": {
+      "aui-source": "./src/index.ts",
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    }
+  },
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist",
+    "src",
+    "README.md"
+  ],
+  "sideEffects": false,
+  "scripts": {
+    "build": "aui-build",
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "dependencies": {
+    "assistant-stream": "^0.3.2",
+    "uuid": "^13.0.0"
+  },
+  "peerDependencies": {
+    "@assistant-ui/react": "^0.12.10",
+    "@types/react": "*",
+    "react": "^18 || ^19"
+  },
+  "peerDependenciesMeta": {
+    "@types/react": {
+      "optional": true
+    }
+  },
+  "devDependencies": {
+    "@assistant-ui/react": "workspace:*",
+    "@assistant-ui/x-buildutils": "workspace:*",
+    "@testing-library/dom": "^10.4.1",
+    "@testing-library/react": "^16.3.2",
+    "@types/node": "^25.2.1",
+    "@types/react": "^19.2.13",
+    "@types/uuid": "^11.0.0",
+    "jsdom": "^28.0.0",
+    "react": "^19.2.4",
+    "vitest": "^4.0.18"
+  },
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
+  },
+  "homepage": "https://www.assistant-ui.com/",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/assistant-ui/assistant-ui.git",
+    "directory": "packages/react-langgraph"
+  },
+  "bugs": {
+    "url": "https://github.com/assistant-ui/assistant-ui/issues"
+  }
+}

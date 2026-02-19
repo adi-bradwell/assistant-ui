@@ -1,0 +1,22 @@
+{
+  "title": "Tap Documentation",
+  "root": true,
+  "pages": [
+    "introduction",
+    "motivation",
+    "roadmap",
+    "---Tap---",
+    "quickstart",
+    "resources",
+    "hooks",
+    "composition",
+    "trees-and-rerenders",
+    "lifecycle",
+    "context",
+    "api-reference",
+    "---Store---",
+    "store/why-store",
+    "store/quickstart",
+    "store/scopes"
+  ]
+}

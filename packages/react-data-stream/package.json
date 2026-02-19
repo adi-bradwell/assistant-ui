@@ -1,0 +1,69 @@
+{
+  "name": "@assistant-ui/react-data-stream",
+  "version": "0.12.4",
+  "description": "Data stream adapter for assistant-ui",
+  "keywords": [
+    "data-stream",
+    "streaming",
+    "assistant-ui",
+    "react",
+    "ai",
+    "chat"
+  ],
+  "author": "AgentbaseAI Inc.",
+  "license": "MIT",
+  "type": "module",
+  "exports": {
+    ".": {
+      "aui-source": "./src/index.ts",
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    }
+  },
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist",
+    "src",
+    "README.md"
+  ],
+  "sideEffects": false,
+  "scripts": {
+    "build": "aui-build"
+  },
+  "dependencies": {
+    "@ai-sdk/provider": "^3.0.7",
+    "assistant-stream": "^0.3.2",
+    "zod": "^4.3.6"
+  },
+  "peerDependencies": {
+    "@assistant-ui/react": "^0.12.10",
+    "@types/react": "*",
+    "react": "^18 || ^19"
+  },
+  "peerDependenciesMeta": {
+    "@types/react": {
+      "optional": true
+    }
+  },
+  "devDependencies": {
+    "@assistant-ui/react": "workspace:*",
+    "@assistant-ui/x-buildutils": "workspace:*",
+    "@types/json-schema": "^7.0.15",
+    "@types/react": "^19.2.13",
+    "react": "^19.2.4"
+  },
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
+  },
+  "homepage": "https://www.assistant-ui.com/",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/assistant-ui/assistant-ui.git",
+    "directory": "packages/react-data-stream"
+  },
+  "bugs": {
+    "url": "https://github.com/assistant-ui/assistant-ui/issues"
+  }
+}
