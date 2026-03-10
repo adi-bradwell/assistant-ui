@@ -6,6 +6,7 @@ export type {
   ImageMessagePart,
   FileMessagePart,
   DataMessagePart,
+  DataUIPart,
   Unstable_AudioMessagePart,
   ToolCallMessagePart,
   ThreadUserMessagePart,
@@ -32,6 +33,7 @@ export type {
   PendingAttachment,
   CompleteAttachment,
   AttachmentStatus,
+  CreateAttachment,
 } from "./attachment";
 
 export type { Unsubscribe } from "./unsubscribe";

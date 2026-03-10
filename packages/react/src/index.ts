@@ -1,4 +1,4 @@
-import "./types/store-augmentation";
+/// <reference types="@assistant-ui/core/react" />
 
 // Re-export from @assistant-ui/store
 export {

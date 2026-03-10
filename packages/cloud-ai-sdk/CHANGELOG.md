@@ -1,5 +1,36 @@
 # @assistant-ui/cloud-ai-sdk
 
+## 0.1.5
+
+### Patch Changes
+
+- 57e26d2: chore: update dependencies
+
+## 0.1.4
+
+### Patch Changes
+
+- a845911: chore: update dependencies
+- Updated dependencies [a845911]
+  - assistant-cloud@0.1.21
+
+## 0.1.3
+
+### Patch Changes
+
+- 17cf9a8: feat(telemetry): add reasoning/cached token usage across cloud reporting paths
+- Updated dependencies [17cf9a8]
+  - assistant-cloud@0.1.20
+
+## 0.1.2
+
+### Patch Changes
+
+- 36ef3a2: chore: update dependencies
+- 3a39d33: feat(cloud-ai-sdk): add telemetry reporting for chat runs
+- Updated dependencies [36ef3a2]
+  - assistant-cloud@0.1.19
+
 ## 0.1.1
 
 ### Patch Changes

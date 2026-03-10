@@ -1,5 +1,47 @@
 # @assistant-ui/react-ag-ui
 
+## 0.0.20
+
+### Patch Changes
+
+- 164ff4e: fix(react-ag-ui): preserve tool message id through AgUiMessage conversion round-trip
+- Updated dependencies [5ae74fe]
+- Updated dependencies [8ed9d6f]
+  - @assistant-ui/react@0.12.16
+
+## 0.0.19
+
+### Patch Changes
+
+- a845911: chore: update dependencies
+- a8983ae: fix(react-ag-ui): add REASONING\_\* event support to match @ag-ui/client v0.0.45
+- c482ca2: fix(react-ag-ui): correctly import `MESSAGES_SNAPSHOT` events that include `role: "tool"` messages by normalizing them into assistant tool-call results before core conversion.
+- Updated dependencies [07dcce0]
+- Updated dependencies [a845911]
+- Updated dependencies [bc40eaf]
+- Updated dependencies [be23d74]
+- Updated dependencies [1eb059c]
+  - @assistant-ui/react@0.12.15
+
+## 0.0.18
+
+### Patch Changes
+
+- 36ef3a2: chore: update dependencies
+- 8c29377: fix(react-ag-ui): route tool results to the latest pending tool call and avoid false auto-resume triggers
+- Updated dependencies [36ef3a2]
+- Updated dependencies [6692226]
+- Updated dependencies [c31c0fa]
+- Updated dependencies [1672be8]
+- Updated dependencies [28f39fe]
+- Updated dependencies [3a1cb66]
+- Updated dependencies [14769af]
+- Updated dependencies [7c360ce]
+- Updated dependencies [a638f05]
+- Updated dependencies [8a78cd2]
+  - assistant-stream@0.3.4
+  - @assistant-ui/react@0.12.12
+
 ## 0.0.17
 
 ### Patch Changes

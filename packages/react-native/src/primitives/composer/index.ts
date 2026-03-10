@@ -1,16 +1,25 @@
-export { ComposerRoot, type ComposerRootProps } from "./ComposerRoot";
-export { ComposerInput, type ComposerInputProps } from "./ComposerInput";
-export { ComposerSend, type ComposerSendProps } from "./ComposerSend";
-export { ComposerCancel, type ComposerCancelProps } from "./ComposerCancel";
 export {
-  EditComposerInput,
-  type EditComposerInputProps,
-} from "./EditComposerInput";
+  ComposerRoot as Root,
+  type ComposerRootProps as RootProps,
+} from "./ComposerRoot";
 export {
-  EditComposerSend,
-  type EditComposerSendProps,
-} from "./EditComposerSend";
+  ComposerAttachments as Attachments,
+  ComposerAttachmentByIndex as AttachmentByIndex,
+} from "./ComposerAttachments";
 export {
-  EditComposerCancel,
-  type EditComposerCancelProps,
-} from "./EditComposerCancel";
+  ComposerInput as Input,
+  type ComposerInputProps as InputProps,
+} from "./ComposerInput";
+export {
+  ComposerSend as Send,
+  type ComposerSendProps as SendProps,
+} from "./ComposerSend";
+export {
+  ComposerCancel as Cancel,
+  type ComposerCancelProps as CancelProps,
+} from "./ComposerCancel";
+export {
+  ComposerAddAttachment as AddAttachment,
+  type ComposerAddAttachmentProps as AddAttachmentProps,
+} from "./ComposerAddAttachment";
+export { ComposerIf as If } from "./ComposerIf";

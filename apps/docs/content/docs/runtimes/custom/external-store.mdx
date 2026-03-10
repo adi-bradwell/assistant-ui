@@ -1157,6 +1157,29 @@ const ToolUI = makeAssistantToolUI({
 });
 ```
 
+### Binding External Messages Manually
+
+Use `bindExternalStoreMessage` to attach your original message to a `ThreadMessage` or message part object. This is useful when you construct `ThreadMessage` objects yourself (outside of the built-in message converter) and want `getExternalStoreMessages` to work with them.
+
+```tsx
+import {
+  bindExternalStoreMessage,
+  getExternalStoreMessages,
+} from "@assistant-ui/react";
+
+// Attach your original message to a ThreadMessage
+bindExternalStoreMessage(threadMessage, originalMessage);
+
+// Later, retrieve it
+const original = getExternalStoreMessages(threadMessage);
+```
+
+<Callout type="warn">
+  This API is experimental and may change without notice.
+</Callout>
+
+`bindExternalStoreMessage` is a no-op if the target already has a bound message. It mutates the target object in place.
+
 ## Debugging
 
 ### Common Debugging Scenarios
@@ -1503,7 +1526,7 @@ A flexible message format that can be converted to assistant-ui's internal forma
     {
       name: "content",
       type: "string | readonly MessagePart[]",
-      description: "Message content as string or structured message parts",
+      description: "Message content as string or structured message parts. Supports `data-*` prefixed types (e.g. `{ type: \"data-workflow\", data: {...} }`) which are automatically converted to DataMessagePart.",
       required: true,
     },
     {
@@ -1525,7 +1548,7 @@ A flexible message format that can be converted to assistant-ui's internal forma
     {
       name: "attachments",
       type: "readonly CompleteAttachment[]",
-      description: "File attachments (user messages only)",
+      description: "File attachments (user messages only). Attachment `type` accepts custom strings beyond \"image\" | \"document\" | \"file\", and `contentType` is optional.",
     },
     {
       name: "metadata",

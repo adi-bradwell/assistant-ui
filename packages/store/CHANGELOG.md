@@ -1,5 +1,23 @@
 # @assistant-ui/store
 
+## 0.2.2
+
+### Patch Changes
+
+- a845911: chore: update dependencies
+- Updated dependencies [a845911]
+  - @assistant-ui/tap@0.5.2
+
+## 0.2.1
+
+### Patch Changes
+
+- 36ef3a2: chore: update dependencies
+- fc98475: feat(store): move `@assistant-ui/core` and `@assistant-ui/tap` to peerDependencies to fix npm deduplication
+- a638f05: refactor(store): make store independent of core, add ScopeRegistry module augmentation support
+- Updated dependencies [36ef3a2]
+  - @assistant-ui/tap@0.5.1
+
 ## 0.2.0
 
 ### Minor Changes

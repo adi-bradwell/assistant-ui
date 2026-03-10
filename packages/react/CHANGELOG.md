@@ -1,5 +1,80 @@
 # @assistant-ui/react
 
+## 0.12.16
+
+### Patch Changes
+
+- 5ae74fe: fix: prevent double-submit when ComposerPrimitive.Send child has type="submit"
+- 8ed9d6f: Refactor React Native component API: move shared runtime logic (remote thread list, external store, cloud adapters, message converter, tool invocations) into @assistant-ui/core for reuse across React and React Native
+- Updated dependencies [5ae74fe]
+- Updated dependencies [8ed9d6f]
+- Updated dependencies [01bee2b]
+  - @assistant-ui/core@0.1.3
+
+## 0.12.15
+
+### Patch Changes
+
+- 07dcce0: fix(react): duplicate `toolCallId` parts when joining consecutive assistant snapshots in the external message converter.
+- a845911: chore: update dependencies
+- bc40eaf: fix(react): `ActionBarMorePrimitive` disappearing when `ActionBarPrimitive.Root` uses `autohide="not-last"` on non-last messages.
+- be23d74: fix(react): make `useToolInvocations` args stream rewrites recover safely and avoid premature closure for non-executable client tools.
+- 1eb059c: fix(react): avoid crashing when external message conversion receives orphaned tool results without a matching tool call.
+- Updated dependencies [a845911]
+  - assistant-cloud@0.1.21
+  - @assistant-ui/store@0.2.2
+  - @assistant-ui/tap@0.5.2
+
+## 0.12.14
+
+### Patch Changes
+
+- 03714af: fix: DataRenderers not in scope
+- Updated dependencies [03714af]
+  - @assistant-ui/core@0.1.2
+
+## 0.12.13
+
+### Patch Changes
+
+- 17cf9a8: feat(telemetry): add reasoning/cached token usage across cloud reporting paths
+- Updated dependencies [17cf9a8]
+  - assistant-cloud@0.1.20
+
+## 0.12.12
+
+### Patch Changes
+
+- 36ef3a2: chore: update dependencies
+- 6692226: feat: support external source attachments in composer
+
+  `addAttachment()` now accepts either a `File` or a `CreateAttachment` descriptor, allowing users to add attachments from external sources (URLs, API data, CMS references) without creating dummy `File` objects or requiring an `AttachmentAdapter`.
+
+- c31c0fa: Extract shared React code (model-context, client, types, providers, RuntimeAdapter) into `@assistant-ui/core/react` sub-path so both `@assistant-ui/react` and `@assistant-ui/react-native` re-export from one source.
+- 1672be8: feat: bindExternalStoreMessage
+- 28f39fe: Handle unknown attachment types with fallback component and unknown message part types with `console.warn` instead of throwing
+- 3a1cb66: feat: assistant transport prepareRequestBody support
+- 14769af: refactor: move RuntimeAdapter base logic to @assistant-ui/core; re-export missing core APIs from distribution packages
+- 7c360ce: Update npm README
+- a638f05: refactor(react): target @assistant-ui/store for ScopeRegistry module augmentation
+- 8a78cd2: fix: stabilize runtimeHook identity in useRemoteThreadListRuntime to avoid unnecessary option updates and thread state churn
+- Updated dependencies [a638f05]
+- Updated dependencies [28f39fe]
+- Updated dependencies [36ef3a2]
+- Updated dependencies [6692226]
+- Updated dependencies [c31c0fa]
+- Updated dependencies [fc98475]
+- Updated dependencies [374f83a]
+- Updated dependencies [fc98475]
+- Updated dependencies [1672be8]
+- Updated dependencies [14769af]
+- Updated dependencies [a638f05]
+  - @assistant-ui/core@0.1.1
+  - assistant-stream@0.3.4
+  - assistant-cloud@0.1.19
+  - @assistant-ui/store@0.2.1
+  - @assistant-ui/tap@0.5.1
+
 ## 0.12.11
 
 ### Patch Changes

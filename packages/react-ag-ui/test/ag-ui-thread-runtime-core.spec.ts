@@ -73,6 +73,131 @@ describe("AGUIThreadRuntimeCore", () => {
     expect(core.isRunning()).toBe(false);
   });
 
+  it("imports tool role messages from snapshots as assistant tool-call results", async () => {
+    const agent = {
+      runAgent: vi.fn(async (_input, subscriber) => {
+        subscriber.onMessagesSnapshotEvent?.({
+          event: {
+            type: "MESSAGES_SNAPSHOT",
+            messages: [
+              {
+                id: "msg-1",
+                role: "user",
+                content: "What's the weather?",
+              },
+              {
+                id: "msg-2",
+                role: "assistant",
+                content: "",
+                toolCalls: [
+                  {
+                    id: "call-1",
+                    type: "function",
+                    function: {
+                      name: "get_weather",
+                      arguments: '{"city":"Paris"}',
+                    },
+                  },
+                ],
+              },
+              {
+                id: "msg-3",
+                role: "tool",
+                toolCallId: "call-1",
+                content: '{"temperature":"22C"}',
+              },
+            ],
+          },
+        });
+        subscriber.onRunFinalized?.();
+      }),
+    } as unknown as HttpAgent;
+
+    const core = createCore(agent);
+    await core.append(createAppendMessage());
+
+    const messages = core.getMessages();
+    expect(messages).toHaveLength(2);
+    expect(messages[0]).toMatchObject({
+      id: "msg-1",
+      role: "user",
+    });
+    const assistant = messages[1] as ThreadAssistantMessage;
+    expect(assistant.id).toBe("msg-2");
+    const toolPart = assistant.content.find(
+      (part) => part.type === "tool-call",
+    ) as any;
+    expect(toolPart).toBeTruthy();
+    expect(toolPart).toMatchObject({
+      toolCallId: "call-1",
+      toolName: "get_weather",
+      result: { temperature: "22C" },
+    });
+  });
+
+  it("preserves tool message IDs when rerunning imported snapshots", async () => {
+    const runAgent = vi.fn(async (_input, subscriber) => {
+      if (runAgent.mock.calls.length === 1) {
+        subscriber.onMessagesSnapshotEvent?.({
+          event: {
+            type: "MESSAGES_SNAPSHOT",
+            messages: [
+              {
+                id: "msg-1",
+                role: "user",
+                content: "What's the weather?",
+              },
+              {
+                id: "msg-2",
+                role: "assistant",
+                content: "",
+                toolCalls: [
+                  {
+                    id: "call-1",
+                    type: "function",
+                    function: {
+                      name: "get_weather",
+                      arguments: '{"city":"Paris"}',
+                    },
+                  },
+                ],
+              },
+              {
+                id: "tool-msg-original-id",
+                role: "tool",
+                toolCallId: "call-1",
+                content: '{"temperature":"22C"}',
+              },
+            ],
+          },
+        });
+      }
+
+      subscriber.onRunFinalized?.();
+    });
+    const agent = { runAgent } as unknown as HttpAgent;
+
+    const core = createCore(agent);
+    await core.append(createAppendMessage());
+
+    await core.resume({
+      parentId: "msg-2",
+      sourceId: null,
+      runConfig: {} as TestRunConfig,
+    });
+
+    const secondInput = runAgent.mock.calls[1]?.[0];
+    expect(secondInput).toBeTruthy();
+    expect(secondInput.messages).toContainEqual(
+      expect.objectContaining({
+        id: "tool-msg-original-id",
+        role: "tool",
+        toolCallId: "call-1",
+        content: '{"temperature":"22C"}',
+      }),
+    );
+  });
+
   it("marks runs as cancelled when aborting", async () => {
     const agent = {
       runAgent: vi.fn((_input, _subscriber, { signal }) => {
@@ -163,6 +288,126 @@ describe("AGUIThreadRuntimeCore", () => {
     const part = updated.content[0] as any;
     expect(part.result).toEqual({ ok: true });
     expect(part.isError).toBe(false);
+  });
+
+  it("prefers latest pending message when toolCallId is reused", () => {
+    const agent = {
+      runAgent: vi.fn(async () => {}),
+    } as unknown as HttpAgent;
+
+    const previousAssistant: ThreadAssistantMessage = {
+      id: "assistant-old",
+      role: "assistant",
+      createdAt: new Date(),
+      status: { type: "complete", reason: "unknown" },
+      metadata: {
+        unstable_state: null,
+        unstable_annotations: [],
+        unstable_data: [],
+        steps: [],
+        custom: {},
+      },
+      content: [
+        {
+          type: "tool-call" as const,
+          toolCallId: "call-1",
+          toolName: "search",
+          args: {},
+          argsText: "{}",
+          result: { ok: "old" },
+        },
+      ],
+    };
+
+    const pendingAssistant: ThreadAssistantMessage = {
+      id: "assistant-new",
+      role: "assistant",
+      createdAt: new Date(),
+      status: { type: "requires-action", reason: "tool-calls" },
+      metadata: {
+        unstable_state: null,
+        unstable_annotations: [],
+        unstable_data: [],
+        steps: [],
+        custom: {},
+      },
+      content: [
+        {
+          type: "tool-call" as const,
+          toolCallId: "call-1",
+          toolName: "search",
+          args: {},
+          argsText: "{}",
+        },
+      ],
+    };
+
+    const core = createCore(agent);
+    core.applyExternalMessages([
+      previousAssistant as ThreadMessage,
+      pendingAssistant as ThreadMessage,
+    ]);
+
+    const targetMessageId = core.findMessageIdForToolCall("call-1");
+    expect(targetMessageId).toBe("assistant-new");
+
+    core.addToolResult({
+      messageId: targetMessageId!,
+      toolCallId: "call-1",
+      toolName: "search",
+      result: { ok: "new" },
+      isError: false,
+    });
+
+    const [oldMessage, newMessage] =
+      core.getMessages() as ThreadAssistantMessage[];
+    expect((oldMessage.content[0] as any).result).toEqual({ ok: "old" });
+    expect((newMessage.content[0] as any).result).toEqual({ ok: "new" });
+  });
+
+  it("does not auto-resume when addToolResult does not match a tool call", () => {
+    const runAgent = vi.fn(async (_input, subscriber) => {
+      subscriber.onRunFinalized?.();
+    });
+    const agent = { runAgent } as unknown as HttpAgent;
+    const core = createCore(agent);
+
+    const assistant: ThreadAssistantMessage = {
+      id: "assistant",
+      role: "assistant",
+      createdAt: new Date(),
+      status: { type: "requires-action", reason: "tool-calls" },
+      metadata: {
+        unstable_state: null,
+        unstable_annotations: [],
+        unstable_data: [],
+        steps: [],
+        custom: {},
+      },
+      content: [
+        {
+          type: "tool-call" as const,
+          toolCallId: "call-1",
+          toolName: "search",
+          args: {},
+          argsText: "{}",
+          result: { cached: true },
+        },
+      ],
+    };
+    core.applyExternalMessages([assistant as ThreadMessage]);
+
+    core.addToolResult({
+      messageId: "assistant",
+      toolCallId: "call-missing",
+      toolName: "search",
+      result: { ignored: true },
+      isError: false,
+    });
+
+    expect(runAgent).not.toHaveBeenCalled();
+    const updated = core.getMessages()[0] as ThreadAssistantMessage;
+    expect((updated.content[0] as any).result).toEqual({ cached: true });
   });
 
   it("auto-resumes run after all tool results are added", async () => {

@@ -1,5 +1,62 @@
 # @assistant-ui/react-ai-sdk
 
+## 1.3.13
+
+### Patch Changes
+
+- 8ed9d6f: Refactor React Native component API: move shared runtime logic (remote thread list, external store, cloud adapters, message converter, tool invocations) into @assistant-ui/core for reuse across React and React Native
+- Updated dependencies [5ae74fe]
+- Updated dependencies [8ed9d6f]
+- Updated dependencies [01bee2b]
+  - @assistant-ui/core@0.1.3
+
+## 1.3.12
+
+### Patch Changes
+
+- 57e26d2: chore: update dependencies
+
+## 1.3.11
+
+### Patch Changes
+
+- a845911: chore: update dependencies
+- Updated dependencies [07dcce0]
+- Updated dependencies [a845911]
+- Updated dependencies [bc40eaf]
+- Updated dependencies [be23d74]
+- Updated dependencies [1eb059c]
+  - @assistant-ui/react@0.12.15
+  - assistant-cloud@0.1.21
+
+## 1.3.10
+
+### Patch Changes
+
+- 51de636: feat(react-ai-sdk): add thread token-usage extraction helpers and hook
+- 7ad20d1: fix(react-ai-sdk): stabilize tool args key order to prevent duplicate toolCallId crash in tapResources
+- Updated dependencies [17cf9a8]
+  - assistant-cloud@0.1.20
+  - @assistant-ui/react@0.12.13
+
+## 1.3.9
+
+### Patch Changes
+
+- 36ef3a2: chore: update dependencies
+- Updated dependencies [36ef3a2]
+- Updated dependencies [6692226]
+- Updated dependencies [c31c0fa]
+- Updated dependencies [1672be8]
+- Updated dependencies [28f39fe]
+- Updated dependencies [3a1cb66]
+- Updated dependencies [14769af]
+- Updated dependencies [7c360ce]
+- Updated dependencies [a638f05]
+- Updated dependencies [8a78cd2]
+  - assistant-cloud@0.1.19
+  - @assistant-ui/react@0.12.12
+
 ## 1.3.8
 
 ### Patch Changes

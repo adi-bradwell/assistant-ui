@@ -16,7 +16,11 @@ import type { Logger } from "./logger";
 import type { AgUiEvent } from "./types";
 import type { ReadonlyJSONValue } from "assistant-stream/utils";
 import { RunAggregator } from "./adapter/run-aggregator";
-import { toAgUiMessages, toAgUiTools } from "./adapter/conversions";
+import {
+  fromAgUiMessages,
+  toAgUiMessages,
+  toAgUiTools,
+} from "./adapter/conversions";
 import { createAgUiSubscriber } from "./adapter/subscriber";
 
 type RunConfig = NonNullable<AppendMessage["runConfig"]>;
@@ -186,15 +190,20 @@ export class AgUiThreadRuntimeCore {
   }
 
   findMessageIdForToolCall(toolCallId: string): string | undefined {
-    for (const message of this.messages) {
-      if (message.role !== "assistant") continue;
+    let fallbackMessageId: string | undefined;
+    for (let index = this.messages.length - 1; index >= 0; index--) {
+      const message = this.messages[index];
+      if (!message || message.role !== "assistant") continue;
       for (const part of message.content) {
-        if (part.type === "tool-call" && part.toolCallId === toolCallId) {
+        if (part.type !== "tool-call" || part.toolCallId !== toolCallId)
+          continue;
+        if (!("result" in part) || part.result === undefined) {
           return message.id;
         }
+        fallbackMessageId ??= message.id;
       }
     }
-    return undefined;
+    return fallbackMessageId;
   }
 
   addToolResult(options: AddToolResultOptions): void {
@@ -203,11 +212,12 @@ export class AgUiThreadRuntimeCore {
     this.messages = this.messages.map((message) => {
       if (message.id !== options.messageId || message.role !== "assistant")
         return message;
-      updated = true;
       const assistant = message as ThreadAssistantMessage;
+      let matchedToolCall = false;
       const content = assistant.content.map((part) => {
         if (part.type !== "tool-call" || part.toolCallId !== options.toolCallId)
           return part;
+        matchedToolCall = true;
         return {
           ...part,
           result: options.result,
@@ -215,6 +225,8 @@ export class AgUiThreadRuntimeCore {
           isError: options.isError,
         };
       });
+      if (!matchedToolCall) return message;
+      updated = true;
 
       if (
         assistant.status?.type === "requires-action" &&
@@ -498,13 +510,24 @@ export class AgUiThreadRuntimeCore {
 
   private importMessagesSnapshot(rawMessages: readonly unknown[]) {
     try {
-      const converted = rawMessages.map((message) =>
-        INTERNAL.fromThreadMessageLike(
-          message as any,
-          INTERNAL.generateId(),
-          FALLBACK_USER_STATUS,
-        ),
-      );
+      const normalized = fromAgUiMessages(rawMessages);
+      const converted: ThreadMessage[] = [];
+      for (const message of normalized) {
+        try {
+          converted.push(
+            INTERNAL.fromThreadMessageLike(
+              message as any,
+              INTERNAL.generateId(),
+              FALLBACK_USER_STATUS,
+            ),
+          );
+        } catch (error) {
+          this.logger.error?.(
+            "[agui] failed to import message from snapshot",
+            error,
+          );
+        }
+      }
       this.applyExternalMessages(converted);
     } catch (error) {
       this.logger.error?.("[agui] failed to import messages snapshot", error);

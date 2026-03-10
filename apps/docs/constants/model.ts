@@ -10,33 +10,26 @@ export const MODELS = [
     name: "Gemini 3.0 Flash",
     value: "google/gemini-3-flash",
     icon: "/icons/google.svg",
-    disabled: true, // temporarily disabled - OpenAI credits only
+    disabled: false,
     contextWindow: 1_000_000,
   },
   {
     name: "Kimi K2.5",
     value: "moonshotai/kimi-k2.5",
     icon: "/icons/kimi.svg",
-    disabled: true, // temporarily disabled - OpenAI credits only
+    disabled: false,
     contextWindow: 256_000,
   },
   {
-    name: "GLM 5",
-    value: "zai/glm-5",
-    icon: "/icons/zai.svg",
-    disabled: true, // temporarily disabled - OpenAI credits only
-    contextWindow: 202_752,
-  },
-  {
-    name: "Deepseek R1",
-    value: "deepseek-r1",
+    name: "Deepseek V3.2",
+    value: "deepseek/deepseek-v3.2",
     icon: "/icons/deepseek.svg",
-    disabled: true,
-    contextWindow: 128_000,
+    disabled: false,
+    contextWindow: 164_000,
   },
   {
-    name: "Claude 4.5 Sonnet",
-    value: "claude-4.5-sonnet",
+    name: "Claude Sonnet 4.6",
+    value: "anthropic/claude-sonnet-4.6",
     icon: "/icons/anthropic.svg",
     disabled: true,
     contextWindow: 200_000,

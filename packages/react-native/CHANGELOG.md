@@ -1,5 +1,52 @@
 # @assistant-ui/react-native
 
+## 0.1.3
+
+### Patch Changes
+
+- 8ed9d6f: Add optional `aui` parameter to AssistantRuntimeProvider for passing an AssistantClient
+- 8ed9d6f: Refactor React Native component API: move shared runtime logic (remote thread list, external store, cloud adapters, message converter, tool invocations) into @assistant-ui/core for reuse across React and React Native
+- Updated dependencies [5ae74fe]
+- Updated dependencies [8ed9d6f]
+- Updated dependencies [01bee2b]
+  - @assistant-ui/core@0.1.3
+
+## 0.1.2
+
+### Patch Changes
+
+- a845911: chore: update dependencies
+- Updated dependencies [a845911]
+  - @assistant-ui/store@0.2.2
+  - @assistant-ui/tap@0.5.2
+
+## 0.1.1
+
+### Patch Changes
+
+- 36ef3a2: chore: update dependencies
+- c31c0fa: Extract shared React code (model-context, client, types, providers, RuntimeAdapter) into `@assistant-ui/core/react` sub-path so both `@assistant-ui/react` and `@assistant-ui/react-native` re-export from one source.
+- 14769af: refactor: move RuntimeAdapter base logic to @assistant-ui/core; re-export missing core APIs from distribution packages
+- f8abe87: feat(react-native): add attachment primitives and useComposerAddAttachment hook
+- a638f05: refactor(react-native): import generic store utilities from @assistant-ui/store, remove deprecated hooks in favor of useAuiState
+- d74d309: feat(react-native): add tool system, model context hooks, and data renderers
+- 8a78cd2: fix: stabilize runtimeHook identity in useRemoteThreadListRuntime to avoid unnecessary option updates and thread state churn
+- Updated dependencies [a638f05]
+- Updated dependencies [28f39fe]
+- Updated dependencies [36ef3a2]
+- Updated dependencies [6692226]
+- Updated dependencies [c31c0fa]
+- Updated dependencies [fc98475]
+- Updated dependencies [374f83a]
+- Updated dependencies [fc98475]
+- Updated dependencies [1672be8]
+- Updated dependencies [14769af]
+- Updated dependencies [a638f05]
+  - @assistant-ui/core@0.1.1
+  - assistant-stream@0.3.4
+  - @assistant-ui/store@0.2.1
+  - @assistant-ui/tap@0.5.1
+
 ## 0.1.0
 
 ### Minor Changes

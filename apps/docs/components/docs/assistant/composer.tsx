@@ -155,15 +155,15 @@ export function AssistantComposer({
 export function AssistantComposerAction(): ReactNode {
   return (
     <>
-      <AuiIf condition={({ thread }) => !thread.isRunning}>
+      <AuiIf condition={(s) => !s.thread.isRunning}>
         <ComposerPrimitive.Send asChild>
-          <Button type="submit" size="icon" className="size-7 rounded-lg">
+          <Button size="icon" className="size-7 rounded-lg">
             <ArrowUpIcon className="size-4" />
           </Button>
         </ComposerPrimitive.Send>
       </AuiIf>
 
-      <AuiIf condition={({ thread }) => thread.isRunning}>
+      <AuiIf condition={(s) => s.thread.isRunning}>
         <ComposerPrimitive.Cancel asChild>
           <Button
             type="button"
